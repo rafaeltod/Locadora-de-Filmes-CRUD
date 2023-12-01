@@ -1,15 +1,14 @@
 from templates.manterclienteUI import ManterClienteUI
-from templates.manterservicoUI import ManterFilmeUI
-from templates.manteragendaUI import ManterLocacaoUI
-from templates.abriragendaUI import AbrirLocacaoUI
+from templates.manterfilmeUI import ManterFilmeUI
+from templates.manterlocacaoUI import ManterLocacaoUI
+from templates.buscarfilmeUI import BuscarFilmeUI
 from templates.loginUI import LoginUI
-from templates.agendahojeUI import LocacaoHojeUI
-from templates.servicoreajusteUI import FilmeReajusteUI
 from templates.abrircontaUI import AbrirContaUI
 from templates.editarperfilUI import EditarPerfilUI
-from templates.agendarhorarioUI import LocacaorHorarioUI
-from templates.agendamentosUI import VisualizarLocacaomentoUI
-from templates.admconfirmarUI import ConfirmarLocacaomentoUI
+from templates.realizarlocacaoUI import RealizarLocacaoUI
+from templates.minhaslocacoesUI import VisualizarLocacoesUI
+from templates.buscarusuarioUI import BuscarLocacaoUsuarioUI
+from templates.devolverfilmeUI import DevolverFilmeUI
 from views import View
 
 import streamlit as st
@@ -22,20 +21,20 @@ class IndexUI:
     if op == "Abrir Conta": AbrirContaUI.main()
 
   def menu_admin():
-    op = st.sidebar.selectbox("Menu", ["Manter Locacao", "Manter Clientes", "Manter Filmes", "Abrir Locacao do Dia", "Reajustar Preço", "Confirmar Locacaomento", "Editar Perfil"])
+    op = st.sidebar.selectbox("Menu", ["Manter Locacao", "Manter Clientes", "Manter Filmes", "Editar Perfil", "Buscar Locação de Usuário"])
     if op == "Manter Locacao": ManterLocacaoUI.main()
     if op == "Manter Clientes": ManterClienteUI.main()
     if op == "Manter Filmes": ManterFilmeUI.main()
-    if op == "Abrir Locacao do Dia": AbrirLocacaoUI.main()
-    if op == "Confirmar Locacaomento": ConfirmarLocacaomentoUI.main()
     if op == "Editar Perfil": EditarPerfilUI.main()
+    if op == "Buscar Locação de Usuário": BuscarLocacaoUsuarioUI.main()
 
   def menu_cliente():
-    op = st.sidebar.selectbox("Menu", ["Locacao de Hoje", "Editar Perfil", "Locacaor um horário", "Meus Locacaomentos"])
-    if op == "Locacao de Hoje": LocacaoHojeUI.main()
+    op = st.sidebar.selectbox("Menu", ["Buscar um Filme", "Editar Perfil", "Realizar uma Locação", "Minhas Locações", "Devolver Filme"])
+    if op == "Buscar um Filme": BuscarFilmeUI.main()
     if op == "Editar Perfil": EditarPerfilUI.main()
-    if op == "Locacaor um horário": LocacaorHorarioUI.main()
-    if op == "Meus Locacaomentos": VisualizarLocacaomentoUI.main()
+    if op == "Realizar uma Locação": RealizarLocacaoUI.main()
+    if op == "Minhas Locações": VisualizarLocacoesUI.main()
+    if op == "Devolver Filme": DevolverFilmeUI.main()
 
   def btn_logout():
     if st.sidebar.button("Logout"):

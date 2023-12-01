@@ -4,22 +4,22 @@ from views import View
 import time
 import datetime
 
-class ManterAgendaUI:
+class ManterLocacaoUI:
   def main():
     st.header("Cadastro de Horários")
     tab1, tab2, tab3, tab4 = st.tabs(["Listar", "Inserir", "Atualizar", "Excluir"])
-    with tab1: ManterAgendaUI.listar()
-    with tab2: ManterAgendaUI.inserir()
-    with tab3: ManterAgendaUI.atualizar()
-    with tab4: ManterAgendaUI.excluir()    
+    with tab1: ManterLocacaoUI.listar()
+    with tab2: ManterLocacaoUI.inserir()
+    with tab3: ManterLocacaoUI.atualizar()
+    with tab4: ManterLocacaoUI.excluir()    
 
   def listar():
-    agendas = View.agenda_listar()
-    if len(agendas) == 0:
+    locacoes = View.locacao_listar()
+    if len(locacoes) == 0:
       st.write("Nenhum horário cadastrado")
     else:
       dic = []
-      for obj in agendas: dic.append(obj.to_json())
+      for obj in locacoes: dic.append(obj.to_json())
       df = pd.DataFrame(dic)
       st.dataframe(df)
 
@@ -27,57 +27,55 @@ class ManterAgendaUI:
     datastr = st.text_input("Informe a data no formato *dd/mm/aaaa HH\:MM*")
     clientes = View.cliente_listar()
     cliente = st.selectbox("Selecione o cliente", clientes)
-    servicos = View.servico_listar()
-    servico = st.selectbox("Selecione o serviço", servicos)
+    filmes = View.filme_listar()
+    filme = st.selectbox("Selecione o filme", filmes)
     if st.button("Inserir"):
       try:
         data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-        View.agenda_inserir(data, True, cliente.get_id(), servico.get_id())
-        st.success("Horário inserido com sucesso")
+        View.locacao_inserir(data, cliente.get_id(), filme.get_id())
+        st.success("Locação inserida com sucesso")
         time.sleep(2)
         st.rerun()
       except ValueError as error:
         st.error(f"Erro: {error}")
 
   def atualizar():
-    agendas = View.agenda_listar()
-    if len(agendas) == 0:
+    locacoes = View.locacao_listar()
+    if len(locacoes) == 0:
       st.write("Nenhum horário disponível")
     else:  
-      op = st.selectbox("Atualização de horários", agendas)
-      datastr = st.text_input("Informe a nova data no formato *dd/mm/aaaa HH\:MM*", op.get_data().strftime('%d/%m/%Y %H:%M'))
+      op = st.selectbox("Atualização de horários", locacoes)
+      datastr = st.text_input("Informe a nova data no formato *dd/mm/aaaa HH\:MM*", op.get_entrega().strftime('%d/%m/%Y %H:%M'))
       clientes = View.cliente_listar()
       cliente_atual = View.cliente_listar_id(op.get_id_cliente())
       if cliente_atual is not None:
         cliente = st.selectbox("Selecione o novo cliente", clientes, clientes.index(cliente_atual))
       else:  
         cliente = st.selectbox("Selecione o novo cliente", clientes)
-      servicos = View.servico_listar()
-      servico_atual = View.servico_listar_id(op.get_id_servico())
-      if servico_atual is not None:
-        servico = st.selectbox("Selecione o novo serviço", servicos, servicos.index(servico_atual))
+      filmes = View.filme_listar()
+      filme_atual = View.filme_listar_id(op.get_id_filme())
+      if filme_atual is not None:
+        filme = st.selectbox("Selecione o novo filme", filmes, filmes.index(filme_atual))
       else:
-        servico = st.selectbox("Selecione o novo serviço", servicos)
+        filme = st.selectbox("Selecione o novo filme", filmes)
       if st.button("Atualizar"):
         try:
           data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-          View.agenda_atualizar(op.get_id(), data, op.get_confirmado(), cliente.get_id(), servico.get_id())
-          st.success("Horário atualizado com sucesso")
+          View.locacao_atualizar(op.get_id(), data, cliente.get_id(), filme.get_id())
+          st.success("Locação atualizada com sucesso")
           time.sleep(2)
           st.rerun()
         except ValueError as error:
           st.error(f"Erro: {error}")
 
   def excluir():
-    agendas = View.agenda_listar()
-    if len(agendas) == 0:
+    locacoes = View.locacao_listar()
+    if len(locacoes) == 0:
       st.write("Nenhum horário disponível")
     else:  
-      op = st.selectbox("Exclusão de horários", agendas)
+      op = st.selectbox("Exclusão de horários", locacoes)
       if st.button("Excluir"):
-        View.agenda_excluir(op.get_id())
+        View.locacao_excluir(op.get_id())
         st.success("Horário excluído com sucesso")
         time.sleep(2)
         st.rerun()
-
-

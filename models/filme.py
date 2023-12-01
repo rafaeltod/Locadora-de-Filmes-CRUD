@@ -32,7 +32,7 @@ class Filme:
     return False
 
   def __str__(self):
-    return f"{self.__id} - {self.__titulo} - {self.__genero} - {self.__duracao} - {self.__alugado}"
+    return f"{self.__id} - {self.__titulo} - {self.__genero} - {self.__duracao} min - {self.__alugado}"
 
 
 class NFilme:
