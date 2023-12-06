@@ -124,14 +124,17 @@ class View:
         return filmes_encontrados
   
   def buscar_locacao_usuario(nome_cliente):
-        cliente = next((c for c in NCliente.listar() if c.get_nome().lower() == nome_cliente.lower()), None)
+        clientes = NCliente.listar()
+        resultado = []
+        for cliente in clientes:
+          if nome_cliente.lower() == cliente.get_nome().lower:
+            locacoes = NLocacao.listar()  
+            for locacao in locacoes:
+              if locacao.get_id_cliente() == cliente.get_id():
+                resultado.append(locacao)
+          
+        return resultado
 
-        if cliente is not None:
-            locacoes_usuario = [locacao for locacao in NLocacao.listar() if locacao.get_id_cliente() == cliente.get_id()]
-
-            return locacoes_usuario
-        else:
-            return []
         
   def minhas_locacoes_de_agora(idcliente):
      locacoes = []
@@ -142,17 +145,12 @@ class View:
      return locacoes
   
   def devolver_filme(id_filme, id_cliente):
-        locacao = next((loc for loc in NLocacao.listar() if loc.get_id_filme() == id_filme and loc.get_id_cliente() == id_cliente), None)
-
-        if locacao is not None:
-            filme = NFilme.listar_id(locacao.get_id_filme())
-
-            if filme is not None:
-                filme.set_alugado(False)
-                NFilme.atualizar(filme)
-
-                NLocacao.excluir(locacao)
-            else:
-                raise ValueError("Filme não encontrado.")
-        else:
-            raise ValueError("Locação não encontrada.")
+    locacoes = NLocacao.listar()
+    for locacao in locacoes:
+      if id_cliente == locacao.get_id_cliente():
+        NLocacao.excluir(locacao)
+        filmes = NFilme.listar()
+        for filme in filmes:
+          if id_filme == filme.get_id() and id_filme == locacao.get_id_filme():
+            filme.set_alugado(False)
+            NFilme.atualizar(filme)
