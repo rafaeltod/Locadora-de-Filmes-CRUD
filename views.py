@@ -99,10 +99,10 @@ class View:
     
     locacoes = []
     
-    for horario in View.locacao_listar():
-        if horario.get_id_cliente() == idcliente:
-            if datainicial <= horario.get_entrega() <= datafinal:
-                locacoes.append(horario)
+    for locacao in View.locacao_listar():
+        if locacao.get_id_cliente() == idcliente:
+            if datainicial <= locacao.get_entrega() <= datafinal:
+                locacoes.append(locacao)
     
     return locacoes
   
