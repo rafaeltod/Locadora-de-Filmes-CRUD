@@ -3,7 +3,7 @@ from templates.manterfilmeUI import ManterFilmeUI
 from templates.manterlocacaoUI import ManterLocacaoUI
 from templates.buscarfilmeUI import BuscarFilmeUI
 from templates.loginUI import LoginUI
-from templates.abrircontaUI import AbrirContaUI
+from templates.cadastroUI import CadastroUI
 from templates.editarperfilUI import EditarPerfilUI
 from templates.realizarlocacaoUI import RealizarLocacaoUI
 from templates.minhaslocacoesUI import VisualizarLocacoesUI
@@ -18,7 +18,7 @@ class IndexUI:
   def menu_visitante():
     op = st.sidebar.selectbox("Menu", ["Login", "Abrir Conta"])
     if op == "Login": LoginUI.main()
-    if op == "Abrir Conta": AbrirContaUI.main()
+    if op == "Abrir Conta": CadastroUI.main()
 
   def menu_admin():
     op = st.sidebar.selectbox("Menu", ["Manter Locacao", "Manter Clientes", "Manter Filmes", "Editar Perfil", "Buscar Locação de Usuário"])

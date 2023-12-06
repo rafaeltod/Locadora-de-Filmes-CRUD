@@ -4,7 +4,7 @@ import time
 
 class LoginUI:
   def main():
-    st.header("Entrar no Sistema")
+    st.header("Entrar no Sistema de Locação")
     LoginUI.entrar()
   def entrar():
     email = st.text_input("Informe o e-mail")

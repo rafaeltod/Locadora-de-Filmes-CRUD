@@ -3,10 +3,10 @@ import pandas as pd
 from views import View
 import time
 
-class AbrirContaUI:
+class CadastroUI:
   def main():
-    st.header("Abrir Conta no Sistema")
-    AbrirContaUI.inserir()
+    st.header("Criar Conta na Locadora")
+    CadastroUI.inserir()
   
   def inserir():
     nome = st.text_input("Informe o nome")
