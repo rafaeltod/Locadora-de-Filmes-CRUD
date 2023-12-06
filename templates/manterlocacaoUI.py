@@ -6,7 +6,7 @@ import datetime
 
 class ManterLocacaoUI:
   def main():
-    st.header("Cadastro de Horários")
+    st.header("Cadastro de Locações")
     tab1, tab2, tab3, tab4 = st.tabs(["Listar", "Inserir", "Atualizar", "Excluir"])
     with tab1: ManterLocacaoUI.listar()
     with tab2: ManterLocacaoUI.inserir()

@@ -86,7 +86,9 @@ class View:
           NFilme.atualizar(filme)
           NLocacao.atualizar(Locacao(id, data, id_cliente, id_filme))
           return
-
+        else:
+          raise ValueError("Filme já alugado")
+        
   def locacao_excluir(id):
     NLocacao.excluir(Locacao(id, "", 0, 0))
 
@@ -136,13 +138,15 @@ class View:
         return resultado
 
         
-  def minhas_locacoes_de_agora(idcliente):
-     locacoes = []
+  def meus_filmes_de_agora(id_cliente):
+     filmes = []
      for locacao in View.locacao_listar():
-        if locacao.get_id_cliente() == idcliente:
-           locacoes.append(locacao)
+       if locacao.get_id_cliente() == id_cliente:
+         for filme in View.filme_listar():
+           if filme.get_id() == locacao.get_id_filme():
+             filmes.append(filme)
 
-     return locacoes
+     return filmes
   
   def devolver_filme(id_filme, id_cliente):
     locacoes = NLocacao.listar()
@@ -151,6 +155,6 @@ class View:
         NLocacao.excluir(locacao)
         filmes = NFilme.listar()
         for filme in filmes:
-          if id_filme == filme.get_id() and id_filme == locacao.get_id_filme():
+          if id_filme == filme.get_id():
             filme.set_alugado(False)
             NFilme.atualizar(filme)

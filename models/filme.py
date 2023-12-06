@@ -2,13 +2,19 @@ import json
 
 class Filme:
   def __init__(self, id, titulo, genero, duracao, alugado):
-    if genero == "": raise ValueError("Gênero inválido")
-    if duracao <= 0: raise ValueError("Duração inválida")
     self.__id = id
     self.__titulo = titulo
     self.__genero = genero
     self.__duracao = duracao
     self.__alugado = alugado
+    if titulo == "": raise ValueError("Título inválido")
+    if genero == "": raise ValueError("Gênero inválido")
+    if duracao <= 0: raise ValueError("Duração inválida")
+    self.set_id(id)
+    self.set_titulo(titulo)
+    self.set_genero(genero)
+    self.set_duracao(duracao)
+    self.set_alugado(alugado)
 
   def get_id(self): return self.__id
   def get_titulo(self): return self.__titulo
@@ -17,7 +23,9 @@ class Filme:
   def get_alugado(self): return self.__alugado
 
   def set_id(self, id): self.__id = id
-  def set_titulo(self, titulo): self.__titulo = titulo
+  def set_titulo(self, titulo):
+    if titulo == "": raise ValueError("Título inválido")
+    self.__titulo = titulo
   def set_genero(self, genero): 
     if genero == "": raise ValueError("Gênero inválido")
     self.__genero = genero

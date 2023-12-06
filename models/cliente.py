@@ -8,6 +8,15 @@ class Cliente:
     self.__email = email
     self.__fone = fone
     self.__senha = senha
+    if nome == "": raise ValueError("Nome inválido")
+    if email == "": raise ValueError("E-mail inválido")
+    if fone == "": raise ValueError("Fone inválido")
+    if senha == "": raise ValueError("Senha inválida")
+    self.set_id(id)
+    self.set_nome(nome)
+    self.set_email(email)
+    self.set_fone(fone)
+    self.set_senha(senha)
 
   def get_id(self): return self.__id
   def get_nome(self): return self.__nome
@@ -16,10 +25,18 @@ class Cliente:
   def get_senha(self): return self.__senha
 
   def set_id(self, id): self.__id = id
-  def set_nome(self, nome): self.__nome = nome
-  def set_email(self, email): self.__email = email
-  def set_fone(self, fone): self.__fone = fone
-  def set_senha(self, senha): self.__senha = senha
+  def set_nome(self, nome):
+    if nome == "": raise ValueError("Nome inválido")
+    self.__nome = nome
+  def set_email(self, email):
+    if email == "": raise ValueError("E-mail inválido")
+    self.__email = email
+  def set_fone(self, fone):
+    if fone == "": raise ValueError("Fone inválido")
+    self.__fone = fone
+  def set_senha(self, senha):
+    if senha == "": raise ValueError("Senha inválida")
+    self.__senha = senha
 
   def __eq__(self, x):
     if self.__id == x.__id and self.__nome == x.__nome and self.__email == x.__email and self.__fone == x.__fone and self.__senha == x.__senha:

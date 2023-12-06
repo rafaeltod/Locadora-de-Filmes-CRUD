@@ -7,6 +7,10 @@ class Locacao:
     self.__entrega = entrega
     self.__id_cliente = id_cliente
     self.__id_filme = id_filme
+    self.set_id(id)
+    self.set_entrega(entrega)
+    self.set_id_cliente(id_cliente)
+    self.set_id_filme(id_filme)
 
   def get_id(self): return self.__id
   def get_entrega(self): return self.__entrega
