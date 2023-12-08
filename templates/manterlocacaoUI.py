@@ -31,8 +31,8 @@ class ManterLocacaoUI:
     filme = st.selectbox("Selecione o filme", filmes)
     if st.button("Inserir"):
       try:
-        data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-        View.locacao_inserir(data, cliente.get_id(), filme.get_id())
+        entrega = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
+        View.locacao_inserir(entrega, "00", cliente.get_id(), filme.get_id())
         st.success("Locação inserida com sucesso")
         time.sleep(2)
         st.rerun()
@@ -60,8 +60,8 @@ class ManterLocacaoUI:
         filme = st.selectbox("Selecione o novo filme", filmes)
       if st.button("Atualizar"):
         try:
-          data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-          View.locacao_atualizar(op.get_id(), data, cliente.get_id(), filme.get_id())
+          entrega = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
+          View.locacao_atualizar(op.get_id(), entrega, "Não definida", cliente.get_id(), filme.get_id())
           st.success("Locação atualizada com sucesso")
           time.sleep(2)
           st.rerun()

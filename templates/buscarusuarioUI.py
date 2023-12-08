@@ -9,10 +9,11 @@ class BuscarLocacaoUsuarioUI:
         BuscarLocacaoUsuarioUI.buscar_locacao_usuario()
 
     def buscar_locacao_usuario():
-        nome_cliente = st.text_input("Insira aqui o nome do cliente para buscar locações")
+        clientes = View.cliente_listar()
+        cliente = st.selectbox("Selecione o cliente", clientes)
 
         if st.button("Buscar Locações"):
-            locacoes_encontradas = View.buscar_locacao_usuario(nome_cliente)
+            locacoes_encontradas = View.buscar_locacao_usuario(cliente)
 
             if not locacoes_encontradas:
                 st.write("Nenhuma locação encontrada para o cliente informado.")

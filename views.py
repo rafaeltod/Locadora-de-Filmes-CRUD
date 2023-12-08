@@ -65,32 +65,32 @@ class View:
   def locacao_listar():
     return NLocacao.listar()
 
-  def locacao_inserir(data, id_cliente, id_filme):
+  def locacao_inserir(entrega, devolucao, id_cliente, id_filme):
     filmes = NFilme.listar()
     for filme in filmes:
       if id_filme == filme.get_id():
         if filme.get_alugado() == False:
           filme.set_alugado(True)
           NFilme.atualizar(filme) 
-          NLocacao.inserir(Locacao(0, data, id_cliente, id_filme))
+          NLocacao.inserir(Locacao(0, entrega, devolucao, id_cliente, id_filme))
           return
         else:
           raise ValueError("Filme já alugado")
 
-  def locacao_atualizar(id, data, id_cliente, id_filme):
+  def locacao_atualizar(id, entrega, devolucao, id_cliente, id_filme):
     filmes = NFilme.listar()
     for filme in filmes:
       if id_filme == filme.get_id():
         if filme.get_alugado() == False:
           filme.set_alugado(True)
           NFilme.atualizar(filme)
-          NLocacao.atualizar(Locacao(id, data, id_cliente, id_filme))
+          NLocacao.atualizar(Locacao(id, entrega, devolucao, id_cliente, id_filme))
           return
         else:
           raise ValueError("Filme já alugado")
         
   def locacao_excluir(id):
-    NLocacao.excluir(Locacao(id, "", 0, 0))
+    NLocacao.excluir(Locacao(id, "", "", 0, 0))
 
   def editar_perfil(id, nome, email, fone, senha):
     NCliente.atualizar(Cliente(id, nome, email, fone, senha))
@@ -125,17 +125,14 @@ class View:
 
         return filmes_encontrados
   
-  def buscar_locacao_usuario(nome_cliente):
-        clientes = NCliente.listar()
-        resultado = []
-        for cliente in clientes:
-          if nome_cliente.lower() == cliente.get_nome().lower:
-            locacoes = NLocacao.listar()  
-            for locacao in locacoes:
-              if locacao.get_id_cliente() == cliente.get_id():
-                resultado.append(locacao)
-          
-        return resultado
+  def buscar_locacao_usuario(locacao_cliente):
+      locacoes = View.locacao_listar()
+      resultado = []
+      for locacao in locacoes:
+        if locacao.get_id_cliente() == locacao_cliente.get_id():
+          resultado.append(locacao)
+        
+      return resultado
 
         
   def meus_filmes_de_agora(id_cliente):
