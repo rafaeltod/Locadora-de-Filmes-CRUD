@@ -3,11 +3,6 @@ import streamlit as st
 
 class Cliente:
   def __init__(self, id, nome, email, fone, senha):
-    self.__id = id
-    self.__nome = nome
-    self.__email = email
-    self.__fone = fone
-    self.__senha = senha
     if nome == "": raise ValueError("Nome inválido")
     if email == "": raise ValueError("E-mail inválido")
     if fone == "": raise ValueError("Fone inválido")

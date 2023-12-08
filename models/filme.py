@@ -2,11 +2,6 @@ import json
 
 class Filme:
   def __init__(self, id, titulo, genero, duracao, alugado):
-    self.__id = id
-    self.__titulo = titulo
-    self.__genero = genero
-    self.__duracao = duracao
-    self.__alugado = alugado
     if titulo == "": raise ValueError("Título inválido")
     if genero == "": raise ValueError("Gênero inválido")
     if duracao <= 0: raise ValueError("Duração inválida")
