@@ -18,6 +18,6 @@ class BuscarLocacaoUsuarioUI:
             if not locacoes_encontradas:
                 st.write("Nenhuma locação encontrada para o cliente informado.")
             else:
-                dic = [{"ID Locação": locacao.get_id(), "Data": locacao.get_entrega(),"ID Cliente": locacao.get_id_cliente(), "ID Filme": locacao.get_id_filme()} for locacao in locacoes_encontradas]
+                dic = [{"ID Locação": locacao.get_id(), "Entrega": locacao.get_entrega(), "Devolução" : locacao.get_devolucao(), "ID Cliente": locacao.get_id_cliente(), "ID Filme": locacao.get_id_filme()} for locacao in locacoes_encontradas]
                 df = pd.DataFrame(dic)
                 st.dataframe(df)

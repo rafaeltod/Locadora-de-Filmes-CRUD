@@ -140,7 +140,7 @@ class View:
      for locacao in View.locacao_listar():
        if locacao.get_id_cliente() == id_cliente:
          for filme in View.filme_listar():
-           if filme.get_id() == locacao.get_id_filme():
+           if filme.get_id() == locacao.get_id_filme() and filme.get_alugado == True:
              filmes.append(filme)
 
      return filmes
@@ -149,7 +149,8 @@ class View:
     locacoes = NLocacao.listar()
     for locacao in locacoes:
       if id_cliente == locacao.get_id_cliente():
-        NLocacao.excluir(locacao)
+        locacao.set_devolucao(datetime.today())
+        NLocacao.atualizar(locacao)
         filmes = NFilme.listar()
         for filme in filmes:
           if id_filme == filme.get_id():

@@ -32,7 +32,7 @@ class ManterLocacaoUI:
     if st.button("Inserir"):
       try:
         entrega = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-        View.locacao_inserir(entrega, "00", cliente.get_id(), filme.get_id())
+        View.locacao_inserir(entrega, "", cliente.get_id(), filme.get_id())
         st.success("Locação inserida com sucesso")
         time.sleep(2)
         st.rerun()
@@ -61,7 +61,7 @@ class ManterLocacaoUI:
       if st.button("Atualizar"):
         try:
           entrega = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-          View.locacao_atualizar(op.get_id(), entrega, "Não definida", cliente.get_id(), filme.get_id())
+          View.locacao_atualizar(op.get_id(), entrega, "", cliente.get_id(), filme.get_id())
           st.success("Locação atualizada com sucesso")
           time.sleep(2)
           st.rerun()

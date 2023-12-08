@@ -26,7 +26,7 @@ class RealizarLocacaoUI:
     filme = st.selectbox("Selecione o filme", filmes)
     if st.button("Realizar Locação"):
       try:
-        View.locacao_inserir(datetime.today(), id, filme.get_id())
+        View.locacao_inserir(datetime.today(), "", id, filme.get_id())
         st.success("Locação realizada com sucesso")
         time.sleep(2)
         st.rerun()

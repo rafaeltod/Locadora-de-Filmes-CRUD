@@ -27,13 +27,13 @@ class Locacao:
     return False
 
   def __str__(self):
-    if self.__devolucao == "00":           #"%d/%m/%Y %H:%M"
+    if self.__devolucao == "":
       return f"{self.__id} - {self.__entrega.strftime('%d/%m/%Y %H:%M')} - {self.__devolucao} - {self.__id_cliente} - {self.__id_filme}"
     else:
       return f"{self.__id} - {self.__entrega.strftime('%d/%m/%Y %H:%M')} - {self.__devolucao.strftime('%d/%m/%Y %H:%M')} - {self.__id_cliente} - {self.__id_filme}"
 
   def to_json(self):
-    if self.__devolucao == "00":
+    if self.__devolucao == "":
       return {
         'id': self.__id,
         'entrega': self.__entrega.strftime('%d/%m/%Y %H:%M'),
@@ -100,7 +100,7 @@ class NLocacao:
       with open("locacoes.json", mode="r") as arquivo:
         locacoes_json = json.load(arquivo)
         for obj in locacoes_json:
-          if obj["devolucao"] == "00":
+          if obj["devolucao"] == "":
             aux = Locacao(
               obj["id"],
               datetime.strptime(obj["entrega"], "%d/%m/%Y %H:%M"), obj["devolucao"], obj["id_cliente"], obj["id_filme"])
