@@ -18,9 +18,7 @@ class ManterLocacaoUI:
     if len(locacoes) == 0:
       st.write("Nenhum horário cadastrado")
     else:
-      dic = []
-      for obj in locacoes: dic.append(obj.to_json())
-      df = pd.DataFrame(dic)
+      df = pd.DataFrame(locacoes)
       st.dataframe(df)
 
   def inserir():
@@ -40,7 +38,7 @@ class ManterLocacaoUI:
         st.error(f"Erro: {error}")
 
   def atualizar():
-    locacoes = View.locacao_listar()
+    locacoes = View.locacao_listar_normal()
     if len(locacoes) == 0:
       st.write("Nenhum horário disponível")
     else:  
@@ -69,13 +67,14 @@ class ManterLocacaoUI:
           st.error(f"Erro: {error}")
 
   def excluir():
-    locacoes = View.locacao_listar()
+    locacoes = View.locacao_listar_str()
     if len(locacoes) == 0:
       st.write("Nenhum horário disponível")
     else:  
       op = st.selectbox("Exclusão de horários", locacoes)
       if st.button("Excluir"):
-        View.locacao_excluir(op.get_id())
+        id = int(op.split(" - ")[0])
+        View.locacao_excluir(id)
         st.success("Horário excluído com sucesso")
         time.sleep(2)
         st.rerun()

@@ -62,8 +62,33 @@ class View:
   def filme_excluir(id):
     NFilme.excluir(Filme(id, "", "", 0))
 
-  def locacao_listar():
+  def locacao_listar_normal():
     return NLocacao.listar()
+
+  def locacao_listar():
+    locacoes = NLocacao.listar()
+    lista = []
+    for locacao in locacoes:
+      cliente = View.cliente_listar_id(locacao.get_id_cliente())
+      filme = View.filme_listar_id(locacao.get_id_filme())
+      dic = {"ID Locação": locacao.get_id(), "Entrega": locacao.get_entrega(), "Devolução" : locacao.get_devolucao(), "Cliente": cliente.get_nome(), "Filme": filme.get_titulo()}
+      lista.append(dic)
+
+    return lista
+
+  def locacao_listar_str():
+    locacoes = NLocacao.listar()
+    lista = []
+    for locacao in locacoes:
+      cliente = View.cliente_listar_id(locacao.get_id_cliente())
+      filme = View.filme_listar_id(locacao.get_id_filme())
+      dicstr = locacao.to_str() + " - " + cliente.get_nome() + " - " + filme.get_titulo()
+      lista.append(dicstr)
+
+    return lista
+
+  def locacao_listar_id(id):
+    return NLocacao.listar_id(id)
 
   def locacao_inserir(entrega, devolucao, id_cliente, id_filme):
     filmes = NFilme.listar()
@@ -101,7 +126,7 @@ class View:
     
     locacoes = []
     
-    for locacao in View.locacao_listar():
+    for locacao in View.locacao_listar_normal():
         if locacao.get_id_cliente() == idcliente:
             if datainicial <= locacao.get_entrega() <= datafinal:
                 locacoes.append(locacao)
@@ -126,7 +151,7 @@ class View:
         return filmes_encontrados
   
   def buscar_locacao_usuario(locacao_cliente):
-      locacoes = View.locacao_listar()
+      locacoes = View.locacao_listar_normal()
       resultado = []
       for locacao in locacoes:
         if locacao.get_id_cliente() == locacao_cliente.get_id():
@@ -137,10 +162,10 @@ class View:
         
   def meus_filmes_de_agora(id_cliente):
      filmes = []
-     for locacao in View.locacao_listar():
-       if locacao.get_id_cliente() == id_cliente:
+     for locacao in View.locacao_listar_normal():
+       if locacao.get_id_cliente() == id_cliente and locacao.get_devolucao() == "":
          for filme in View.filme_listar():
-           if filme.get_id() == locacao.get_id_filme() and filme.get_alugado == True:
+           if filme.get_id() == locacao.get_id_filme() and filme.get_alugado() == True:
              filmes.append(filme)
 
      return filmes

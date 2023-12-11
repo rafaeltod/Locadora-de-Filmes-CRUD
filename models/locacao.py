@@ -32,6 +32,12 @@ class Locacao:
     else:
       return f"{self.__id} - {self.__entrega.strftime('%d/%m/%Y %H:%M')} - {self.__devolucao.strftime('%d/%m/%Y %H:%M')} - {self.__id_cliente} - {self.__id_filme}"
 
+  def to_str(self):
+    if self.__devolucao == "":
+      return f"{self.__id} - {self.__entrega.strftime('%d/%m/%Y %H:%M')} - {self.__devolucao}"
+    else:
+      return f"{self.__id} - {self.__entrega.strftime('%d/%m/%Y %H:%M')} - {self.__devolucao.strftime('%d/%m/%Y %H:%M')}"
+
   def to_json(self):
     if self.__devolucao == "":
       return {
