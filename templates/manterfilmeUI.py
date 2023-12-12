@@ -15,10 +15,9 @@ class ManterFilmeUI:
   def listar():
     filmes = View.filme_listar()
     if len(filmes) == 0:
-      st.write("Nenhum serviço cadastrado")
+      st.write("Nenhum filme cadastrado")
     else:  
-      dic = []
-      for obj in filmes: dic.append(obj.__dict__)
+      dic = [{"ID Filme": filme.get_id(), "Título": filme.get_titulo(), "Gênero" : filme.get_genero(), "Duração": f'{filme.get_duracao()} min', "Alugado" : filme.get_alugado()} for filme in filmes]
       df = pd.DataFrame(dic)
       st.dataframe(df)
 
@@ -38,7 +37,7 @@ class ManterFilmeUI:
   def atualizar():
     filmes = View.filme_listar()
     if len(filmes) == 0:
-      st.write("Nenhum serviço cadastrado")
+      st.write("Nenhum filme cadastrado")
     else:  
       op = st.selectbox("Atualização de Filmes", filmes)
       titulo = st.text_input("Informe o novo titulo do filme", op.get_titulo())
@@ -57,7 +56,7 @@ class ManterFilmeUI:
   def excluir():
     filmes = View.filme_listar()
     if len(filmes) == 0:
-      st.write("Nenhum serviço cadastrado")
+      st.write("Nenhum filme cadastrado")
     else:  
       op = st.selectbox("Exclusão de Filmes", filmes)
       if st.button("Excluir"):

@@ -16,7 +16,7 @@ class ManterLocacaoUI:
   def listar():
     locacoes = View.locacao_listar()
     if len(locacoes) == 0:
-      st.write("Nenhum horário cadastrado")
+      st.write("Nenhuma locação cadastrado")
     else:
       df = pd.DataFrame(locacoes)
       st.dataframe(df)
@@ -40,9 +40,9 @@ class ManterLocacaoUI:
   def atualizar():
     locacoes = View.locacao_listar_normal()
     if len(locacoes) == 0:
-      st.write("Nenhum horário disponível")
+      st.write("Nenhuma locação disponível")
     else:  
-      op = st.selectbox("Atualização de horários", locacoes)
+      op = st.selectbox("Atualização de locações", locacoes)
       datastr = st.text_input("Informe a nova data no formato *dd/mm/aaaa HH\:MM*", op.get_entrega().strftime('%d/%m/%Y %H:%M'))
       clientes = View.cliente_listar()
       cliente_atual = View.cliente_listar_id(op.get_id_cliente())
@@ -69,12 +69,12 @@ class ManterLocacaoUI:
   def excluir():
     locacoes = View.locacao_listar_str()
     if len(locacoes) == 0:
-      st.write("Nenhum horário disponível")
+      st.write("Nenhuma locação disponível")
     else:  
-      op = st.selectbox("Exclusão de horários", locacoes)
+      op = st.selectbox("Exclusão de locações", locacoes)
       if st.button("Excluir"):
         id = int(op.split(" - ")[0])
         View.locacao_excluir(id)
-        st.success("Horário excluído com sucesso")
+        st.success("Locação excluída com sucesso")
         time.sleep(2)
         st.rerun()

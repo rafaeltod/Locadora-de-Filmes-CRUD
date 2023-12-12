@@ -17,8 +17,6 @@ class VisualizarLocacoesUI:
             if len(locacoes) == 0:
                 st.write("Nenhuma locação cadastrado")
             else:
-                dic = []
-                for obj in locacoes: dic.append(obj.to_json())
-                
+                dic = [{"ID Locação": locacao.get_id(), "Entrega": locacao.get_entrega(), "Devolução" : locacao.get_devolucao(), "Cliente": View.cliente_listar_id(locacao.get_id_cliente()).get_nome(), "Filme": View.filme_listar_id(locacao.get_id_filme()).get_titulo()} for locacao in locacoes]
                 df = pd.DataFrame(dic)
                 st.dataframe(df)

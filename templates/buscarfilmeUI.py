@@ -17,9 +17,6 @@ class BuscarFilmeUI:
             if len(resultado) == 0:
                 st.write("Nenhum filme encontrado com o título informado.")
             else:
-                dic = []
-                for filme in resultado:
-                    dic.append(filme.__dict__)
-
+                dic = [{"ID Filme": filme.get_id(), "Título": filme.get_titulo(), "Gênero" : filme.get_genero(), "Duração": f'{filme.get_duracao()} min', "Alugado" : filme.get_alugado()} for filme in resultado]
                 df = pd.DataFrame(dic)
                 st.dataframe(df)
