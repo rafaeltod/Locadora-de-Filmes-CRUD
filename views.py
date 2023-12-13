@@ -172,12 +172,16 @@ class View:
   
   def devolver_filme(id_filme, id_cliente):
     locacoes = NLocacao.listar()
+    filmes = NFilme.listar()
+
     for locacao in locacoes:
-      if id_cliente == locacao.get_id_cliente():
-        locacao.set_devolucao(datetime.today())
-        NLocacao.atualizar(locacao)
-        filmes = NFilme.listar()
-        for filme in filmes:
-          if id_filme == filme.get_id():
-            filme.set_alugado(False)
-            NFilme.atualizar(filme)
+        if locacao.get_id_cliente() == id_cliente and locacao.get_id_filme() == id_filme and locacao.get_devolucao() == "":
+            for filme in filmes:
+                if filme.get_id() == id_filme and filme.get_alugado() == True:
+                    locacao.set_devolucao(datetime.today())
+                    NLocacao.atualizar(locacao)
+                    filme.set_alugado(False)
+                    NFilme.atualizar(filme)
+                    return
+
+    raise ValueError("Filme não encontrado ou já devolvido")
