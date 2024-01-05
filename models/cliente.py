@@ -1,12 +1,8 @@
 import json
-import streamlit as st
+from models.modelo import Modelo
 
 class Cliente:
   def __init__(self, id, nome, email, fone, senha):
-    if nome == "": raise ValueError("Nome inválido")
-    if email == "": raise ValueError("E-mail inválido")
-    if fone == "": raise ValueError("Fone inválido")
-    if senha == "": raise ValueError("Senha inválida")
     self.set_id(id)
     self.set_nome(nome)
     self.set_email(email)
@@ -21,16 +17,12 @@ class Cliente:
 
   def set_id(self, id): self.__id = id
   def set_nome(self, nome):
-    if nome == "": raise ValueError("Nome inválido")
     self.__nome = nome
   def set_email(self, email):
-    if email == "": raise ValueError("E-mail inválido")
     self.__email = email
   def set_fone(self, fone):
-    if fone == "": raise ValueError("Fone inválido")
     self.__fone = fone
   def set_senha(self, senha):
-    if senha == "": raise ValueError("Senha inválida")
     self.__senha = senha
 
   def __eq__(self, x):
@@ -42,54 +34,10 @@ class Cliente:
     return f"{self.__id} - {self.__nome} - {self.__email} - {self.__fone}"
 
 
-class NCliente:
-  __clientes = []  # lista de clientes inicia vazia
-
-  @classmethod
-  def inserir(cls, obj):
-    cls.abrir()
-    st.write(obj.get_nome())
-    id = 0  # encontrar o maior id já usado
-    for aux in cls.__clientes:
-      if aux.get_id() > id: id = aux.get_id()
-    obj.set_id(id + 1)
-    cls.__clientes.append(obj)  # insere um cliente (obj) na lista
-    cls.salvar()
-
-  @classmethod
-  def listar(cls):
-    cls.abrir()
-    return cls.__clientes  # retorna a lista de clientes
-
-  @classmethod
-  def listar_id(cls, id):
-    cls.abrir()
-    for obj in cls.__clientes:
-      if obj.get_id() == id: return obj
-    return None
-
-  @classmethod
-  def atualizar(cls, obj):
-    cls.abrir()
-    aux = cls.listar_id(obj.get_id())
-    if aux is not None:
-      aux.set_nome(obj.get_nome())
-      aux.set_email(obj.get_email())
-      aux.set_fone(obj.get_fone())
-      aux.set_senha(obj.get_senha())
-      cls.salvar()
-
-  @classmethod
-  def excluir(cls, obj):
-    cls.abrir()
-    aux = cls.listar_id(obj.get_id())
-    if aux is not None:
-      cls.__clientes.remove(aux)
-      cls.salvar()
-
+class NCliente(Modelo):
   @classmethod
   def abrir(cls):
-    cls.__clientes = []
+    cls.objetos = []
     try:
       with open("clientes.json", mode="r") as arquivo:
         clientes_json = json.load(arquivo)
@@ -99,11 +47,11 @@ class NCliente:
                         obj["_Cliente__email"],
                         obj["_Cliente__fone"],
                         obj["_Cliente__senha"])
-          cls.__clientes.append(aux)
+          cls.objetos.append(aux)
     except FileNotFoundError:
       pass
 
   @classmethod
   def salvar(cls):
     with open("clientes.json", mode="w") as arquivo:
-      json.dump(cls.__clientes, arquivo, default=vars)
+      json.dump(cls.objetos, arquivo, default=vars)

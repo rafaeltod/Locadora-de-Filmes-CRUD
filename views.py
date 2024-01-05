@@ -1,6 +1,7 @@
 from models.cliente import Cliente, NCliente
 from models.filme import Filme, NFilme
 from models.locacao import Locacao, NLocacao
+from models.modelo import Modelo
 import datetime
 from datetime import timedelta
 from datetime import datetime
@@ -60,13 +61,13 @@ class View:
     NFilme.atualizar(Filme(id, titulo, genero, duracao, alugado))
 
   def filme_excluir(id):
-    NFilme.excluir(Filme(id, "", "", 0))
+    NFilme.excluir(Filme(id, "", "", 10, ""))
 
   def locacao_listar_normal():
     return NLocacao.listar()
 
   def locacao_listar():
-    locacoes = NLocacao.listar()
+    locacoes = View.locacao_listar_normal()
     lista = []
     for locacao in locacoes:
       cliente = View.cliente_listar_id(locacao.get_id_cliente())
@@ -77,7 +78,7 @@ class View:
     return lista
 
   def locacao_listar_str():
-    locacoes = NLocacao.listar()
+    locacoes = View.locacao_listar_normal()
     lista = []
     for locacao in locacoes:
       cliente = View.cliente_listar_id(locacao.get_id_cliente())
@@ -91,7 +92,7 @@ class View:
     return NLocacao.listar_id(id)
 
   def locacao_inserir(entrega, devolucao, id_cliente, id_filme):
-    filmes = NFilme.listar()
+    filmes = View.filme_listar()
     for filme in filmes:
       if id_filme == filme.get_id():
         if filme.get_alugado() == False:
@@ -103,7 +104,7 @@ class View:
           raise ValueError("Filme já alugado")
 
   def locacao_atualizar(id, entrega, devolucao, id_cliente, id_filme):
-    filmes = NFilme.listar()
+    filmes = View.filme_listar()
     for filme in filmes:
       if id_filme == filme.get_id():
         if filme.get_alugado() == False:
@@ -144,7 +145,7 @@ class View:
   def buscar_filme(titulo):
         filmes_encontrados = []
 
-        for filme in NFilme.listar():
+        for filme in View.filme_listar():
             if filme.get_titulo().lower() == titulo.lower():
                 filmes_encontrados.append(filme)
 
@@ -171,8 +172,8 @@ class View:
      return filmes
   
   def devolver_filme(id_filme, id_cliente):
-    locacoes = NLocacao.listar()
-    filmes = NFilme.listar()
+    locacoes = View.locacao_listar_normal()
+    filmes = View.filme_listar()
 
     for locacao in locacoes:
         if locacao.get_id_cliente() == id_cliente and locacao.get_id_filme() == id_filme and locacao.get_devolucao() == "":

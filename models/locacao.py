@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from models.modelo import Modelo
 
 class Locacao:
   def __init__(self, id, entrega, devolucao, id_cliente, id_filme):
@@ -55,53 +56,10 @@ class Locacao:
         'id_filme': self.__id_filme}
 
 
-class NLocacao:
-  __locacoes = []
-
-  @classmethod
-  def inserir(cls, obj):
-    cls.abrir()
-    id = 0
-    for aux in cls.__locacoes:
-      if aux.get_id() > id: id = aux.get_id()
-    obj.set_id(id + 1)
-    cls.__locacoes.append(obj)
-    cls.salvar()
-
-  @classmethod
-  def listar(cls):
-    cls.abrir()
-    return cls.__locacoes
-
-  @classmethod
-  def listar_id(cls, id):
-    cls.abrir()
-    for obj in cls.__locacoes:
-      if obj.get_id() == id: return obj
-    return None
-
-  @classmethod
-  def atualizar(cls, obj):
-    cls.abrir()
-    aux = cls.listar_id(obj.get_id())
-    if aux is not None:
-      aux.set_entrega(obj.get_entrega())
-      aux.set_devolucao(obj.get_devolucao())
-      aux.set_id_cliente(obj.get_id_cliente())
-      aux.set_id_filme(obj.get_id_filme())
-      cls.salvar()
-
-  @classmethod
-  def excluir(cls, obj):
-    cls.abrir()
-    aux = cls.listar_id(obj.get_id())
-    if aux is not None:
-      cls.__locacoes.remove(aux)
-      cls.salvar()
-
+class NLocacao(Modelo):
   @classmethod
   def abrir(cls):
-    cls.__locacoes = []
+    cls.objetos = []
     try:
       with open("locacoes.json", mode="r") as arquivo:
         locacoes_json = json.load(arquivo)
@@ -114,11 +72,11 @@ class NLocacao:
             aux = Locacao(
               obj["id"],
               datetime.strptime(obj["entrega"], "%d/%m/%Y %H:%M"), datetime.strptime(obj["devolucao"], "%d/%m/%Y %H:%M"), obj["id_cliente"], obj["id_filme"])
-          cls.__locacoes.append(aux)
+          cls.objetos.append(aux)
     except FileNotFoundError:
       pass
 
   @classmethod
   def salvar(cls):
     with open("locacoes.json", mode="w") as arquivo:
-      json.dump(cls.__locacoes, arquivo, default=Locacao.to_json)
+      json.dump(cls.objetos, arquivo, default=Locacao.to_json)
